@@ -1,0 +1,5 @@
+project: rnshah9/bim
+target: bim
+
+cmds:
+  - cmd: /repo/bim -c @@
