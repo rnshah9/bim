@@ -10,13 +10,9 @@ RUN make install
 
 COPY . /repo
 WORKDIR /repo
+ENV DESTDIR=/install
 RUN make -j8
-
-RUN mkdir -p /deps
-RUN ldd /repo/bim | tr -s '[:blank:]' '\n' | grep '^/' | xargs -I % sh -c 'cp % /deps;'
+RUN make install
 
 FROM ubuntu:22.04 as package
-
-COPY --from=builder /deps /deps
-COPY --from=builder /repo/bim /repo/bim
-ENV LD_LIBRARY_PATH=/deps
+COPY --from=builder /repo /repo
